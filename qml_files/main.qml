@@ -4,6 +4,7 @@ import QtQuick.Controls
 
 Item {
     property color lightBlack: "#1E1E1E"
+    property color lightGrey: "#3D3D3D"
     property color lightGreen: "#34C759"
     property string fontFamily: "sans-serif"
 
@@ -88,8 +89,7 @@ Item {
             Text {
                 id: usbDeviceListLabel
                 Layout.fillWidth: true
-                Layout.preferredHeight: 50
-                Layout.preferredWidth: 180
+                Layout.preferredWidth: 200
                 text: "USB List"
                 color: lightGreen
                 font.family: fontFamily
@@ -100,7 +100,6 @@ Item {
             Button {
                 id: usbListFetchButton
                 Layout.alignment: Qt.AlignHCenter
-                Layout.fillWidth: true
                 Layout.preferredHeight: 40
                 Layout.preferredWidth: 140
 
@@ -145,7 +144,7 @@ Item {
                 Rectangle {
                     id: itemContainer
                     width: 450
-                    height: contentItem.implicitHeight + 20
+                    height: contentItem.implicitHeight + 20 //For padding
                     border.color: lightGreen
                     color: lightBlack
                     radius: 10
@@ -154,7 +153,7 @@ Item {
                         id: contentItem
                         anchors.left: parent.left
                         anchors.leftMargin: 20
-                        width: parent.width
+                        width: parent.width - 20 //for padding
                         wrapMode: Text.WordWrap
                         anchors.verticalCenter: parent.verticalCenter
                         text: modelData
@@ -165,35 +164,63 @@ Item {
                 }
             }
         }
-        // ColumnLayout {
-        //     anchors.verticalCenter: parent
-        //     anchors.left: timerContainer.left
-        //     spacing: 10
 
-        //     // Button {
-        //     //     text: "Fetch USB Devices"
-        //     //     onClicked: {
-        //     //         viewModel.fetchUSBDeviceList()
-        //     //     }
-        //     // }
-        //     ListView {
-        //         Layout.fillHeight: true
-        //         Layout.fillWidth: true
-        //         Layout.preferredHeight: 100
-        //         Layout.preferredWidth: 100
+        RowLayout {
+            width: usbListView.width
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 20
+            anchors.left: timerContainer.right
+            anchors.leftMargin: 20
 
-        //         model: (viewModel != null) ? viewModel.devices : ""
+            Button {
+                id: exitButton
+                Layout.alignment: Qt.AlignHCenter
+                Layout.preferredHeight: 40
+                Layout.preferredWidth: 140
 
-        //         delegate: Item {
-        //             width: parent.width
-        //             height: 40
+                background: Rectangle {
+                    color: parent.down ? Qt.darker(lightGrey, 1.3) : lightGrey
+                    radius: 20
+                }
 
-        //             Text {
-        //                 anchors.centerIn: parent
-        //                 text: modelData
-        //             }
-        //         }
-        //     }
-        // }
+                contentItem: Text {
+                    text: "Exit"
+                    color: "white"
+                    font.family: fontFamily
+                    font.pixelSize: 30
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                onClicked: {
+                    viewModel.exit()
+                }
+            }
+
+            Button {
+                id: cleanupButton
+                Layout.alignment: Qt.AlignHCenter
+                Layout.preferredHeight: 40
+                Layout.preferredWidth: 140
+
+                background: Rectangle {
+                    color: parent.down ? Qt.darker("red", 1.3) : "red"
+                    radius: 20
+                }
+
+                contentItem: Text {
+                    text: "Clean"
+                    color: "white"
+                    font.family: fontFamily
+                    font.pixelSize: 30
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                onClicked: {
+                    viewModel.cleanup()
+                }
+            }
+        }
     }
 }
