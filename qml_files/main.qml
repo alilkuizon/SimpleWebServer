@@ -16,6 +16,7 @@ Item {
             height: parent.height
             width: 300
             color: lightBlack
+
             ColumnLayout {
                 id: counterContainer
                 anchors.centerIn: parent
@@ -94,62 +95,85 @@ Item {
                 font.bold: true
                 font.pixelSize: 40
             }
-            Rectangle {
+            Button {
                 id: usbListFetchButton
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
                 Layout.preferredWidth: 120
-                color: lightGreen
-                radius: 20
 
-                Text {
-                    id: fetchButtonLabel
+                background: Rectangle {
+                    color: parent.down ? Qt.darker(lightGreen, 1.3) : lightGreen
+                    radius: 20
+                }
+
+                contentItem: Text {
+                    text: "Fetch"
                     color: "white"
                     font.family: fontFamily
                     font.pixelSize: 30
-                    text: "Fetch"
-                    anchors.centerIn: parent
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                 }
-                MouseArea {
-                    anchors.fill: parent
-                    onPressed: {
-                        viewModel.fetchUSBDeviceList()
-                    }
+
+                onClicked: {
+                    viewModel.fetchUSBDeviceList()
                 }
             }
         }
 
         ListView {
+            id: usbListView
             anchors.top: usblistLabelContainer.bottom
             anchors.topMargin: 20
-            anchors.horizontalCenter: usblistLabelContainer.horizontalCenter
+            anchors.left: timerContainer.right
+            anchors.leftMargin: 20
 
+            height: 320
+            width: parent.width - timerContainer.width
             model: (viewModel != null) ? viewModel.devices : ""
+            clip: true
+            contentHeight: 400
+            spacing: 8
 
             delegate: Item {
-                width: parent.width
-                height: 40
+                width: usbListView.view.width
 
-                Text {
-                    anchors.centerIn: parent
-                    text: modelData
+                height: itemContainer.height
+                Rectangle {
+                    id: itemContainer
+                    width: 450
+                    height: contentItem.implicitHeight + 20
+                    border.color: lightGreen
+                    color: lightBlack
+                    radius: 10
+
+                    Text {
+                        id: contentItem
+                        anchors.left: parent.left
+                        anchors.leftMargin: 20
+                        width: parent.width
+                        wrapMode: Text.WordWrap
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: modelData
+                        color: "white"
+                        font.family: fontFamily
+                        font.pixelSize: 20
+                    }
                 }
             }
         }
-
         // ColumnLayout {
         //     anchors.verticalCenter: parent
         //     anchors.left: timerContainer.left
         //     spacing: 10
 
-        //     Button {
-        //         text: "Fetch USB Devices"
-        //         onClicked: {
-        //             viewModel.fetchUSBDeviceList()
-        //         }
-        //     }
-
+        //     // Button {
+        //     //     text: "Fetch USB Devices"
+        //     //     onClicked: {
+        //     //         viewModel.fetchUSBDeviceList()
+        //     //     }
+        //     // }
         //     ListView {
         //         Layout.fillHeight: true
         //         Layout.fillWidth: true
