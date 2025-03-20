@@ -84,6 +84,7 @@ Item {
             anchors.verticalCenter: parent
             anchors.left: timerContainer.right
             anchors.leftMargin: 20
+            spacing: 8
             Text {
                 id: usbDeviceListLabel
                 Layout.fillWidth: true
@@ -94,13 +95,14 @@ Item {
                 font.family: fontFamily
                 font.bold: true
                 font.pixelSize: 40
+                wrapMode: Text.Wrap
             }
             Button {
                 id: usbListFetchButton
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
-                Layout.preferredWidth: 120
+                Layout.preferredWidth: 140
 
                 background: Rectangle {
                     color: parent.down ? Qt.darker(lightGreen, 1.3) : lightGreen
