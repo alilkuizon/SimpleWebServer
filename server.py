@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, send_from_directory
 import random
 import os
+import threading
 
 app = Flask(__name__)
 
@@ -26,7 +27,16 @@ def get_qml():
 
     return send_from_directory(QML_DIRECTORY, filename)
 
+@app.route('/api/v1/shutdown', methods=['POST'])
+def shutdown():
+    """Forcefully stops the Flask application."""
+    print("Shutting down the server...")
+    os._exit(0)  # Immediately exits the Python process
+
 if __name__ == '__main__':
     port = get_random_port()
     print(f"Server is running on port {port}")
-    app.run(host='127.0.0.1', port=port)
+
+    # Run Flask in a separate thread so that it can be stopped
+    server_thread = threading.Thread(target=app.run, kwargs={"host": "127.0.0.1", "port": port})
+    server_thread.start()
