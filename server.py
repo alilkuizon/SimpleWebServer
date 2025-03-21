@@ -8,7 +8,7 @@ app = Flask(__name__)
 def get_random_port():
     return random.randint(10000, 20000)
 
-def write_port_to_file(port, filename='server_port.txt'):
+def write_port_to_file(port, filename='../server_port.txt'):
     with open(filename, 'w') as file:
         file.write(str(port))
         file.write('\n') 
