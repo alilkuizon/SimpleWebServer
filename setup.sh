@@ -20,5 +20,5 @@ deactivate
 
 echo "Setup complete. To run your Flask application:"
 echo "1. Activate the virtual environment: source venv/bin/activate"
-echo "2. Run your application script: python your_script.py"
+echo "2. Run webserver application: python server.py"
 echo "3. When done, deactivate the environment: deactivate"
