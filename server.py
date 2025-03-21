@@ -5,9 +5,13 @@ import threading
 
 app = Flask(__name__)
 
-# Function to get a random port between 10000 and 20000
 def get_random_port():
     return random.randint(10000, 20000)
+
+def write_port_to_file(port, filename='server_port.txt'):
+    with open(filename, 'w') as file:
+        file.write(str(port))
+        file.write('\n') 
 
 # Directory where QML files are stored
 QML_DIRECTORY = 'qml_files'
@@ -35,6 +39,7 @@ def shutdown():
 
 if __name__ == '__main__':
     port = get_random_port()
+    write_port_to_file(port)
     print(f"Server is running on port {port}")
 
     # Run Flask in a separate thread so that it can be stopped
